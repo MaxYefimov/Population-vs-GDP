@@ -107,23 +107,20 @@ Where:
 The null distribution of the test statistic follows a <b>t-distribution with (n - 2) degrees of freedom</b>, where n is the number of countries in the dataset. 
 
 <h3>Results </h3>
-```{r}
-## Test Statistic (t): -1.376997
+<ul>
+<li><b>Test Statistic (t)</b>: -1.376997</li>
 
-## Degrees of Freedom (df): 212
+<li><b>Degrees of Freedom (df)</b>: 212</li>
 
-## P-value: 0.1701 
-
-```
+<li><b>P-value: 0.1701</b> </li>
+</ul>
 
 <h3>Interpretation: Compare p-value with \(\alpha = 0.05\)</h3>
 We fail to reject the null hypothesis: there is insufficient evidence to suggest a statistically significant linear relationship between average GDP per capita and average population growth rate across countries. 
  (p-value = 0.1701, two-sided test) 
 
 <h3>Confidence Interval </h3>
-```{r}
-## 95% Confidence Interval: -1.381066e-05, 2.452676e-06
-```
+<b>95% Confidence Interval</b>: -1.381066e-05, 2.452676e-06
 
 The 95% confidence interval for the slope coefficient ranges from approximately <b>-1.38e-05 to 2.45e-06</b>. Since this interval includes 0, it suggests that the effect of GDP per capita on population growth rate is <b>not statistically significant</b> at the 5% level. 
 
@@ -139,4 +136,17 @@ For non-statistical readers, the p-value tells us the likelihood of seeing our d
 The 95% confidence interval for the slope of the regression line is [-1.38e-05, 2.45e-06], which includes zero. This further reinforces our conclusion that there's no strong evidence of a meaningful linear association between these two variables on a global scale during the specified period.
 
 <h3>b.Shortcomings of the analysis</h3>
+<ul>
+<li><b>Other influencing factors</b>: Population growth is affected by many other factors beyond economic prosperity - such as education, healthcare access, culture and governmental policies. These were not included in our analysis, which limits our ability to explain our observations. </li>
+<li><b>Linearity assumption</b>: Our model assumes a linear relationship between GDP per capita and population growth. However, it is possible that a non-linear relationship exists - for instance, population growth may increase with GDP in developing countries but decrease in developed countries, forming a curve rather than a straight line. </li>
+<li><b>Uneven development levels</b>: We combined data from all 217 countries. However, each country faces different circumstances and by lumping them all together, we might be missing patterns that only show up when comparing countries that are similar. For example, the relationship between GDP and population growth might differ between rich and poor countries.  </li>
+<li><b>Currency and Inflation effects</b>: GDP per capita was measured in current USD. Because currencies have different PPP (Purchasing Power Parity) and inflation rates differ by country and year, this might've affected our estimates of economic well-being. PPP accounts for differences in the cost of living and inflation between countries, making it a more accurate measure for comparing economic well-being across nations. </li>
+</ul>
+
 <h3>c.Additional Questions and Recommendations for Future Research</h3>
+<ul>
+<li><b>Nonlinear Modeling</b>: If the effect of GDP on population growth changes at different income levels, nonlinear models may better capture the relationship. </li>
+<li><b>Regional Analysis</b>: Future analysis could involve analyzing regional trends, separating countries into different income groups to see if different patterns emerge. </li>
+<li><b>Consider Alternative Economic Measures</b>: Future analysis could use GDP adjusted for PPP. This adjustment could help reduce distortions caused by currency exchange rates and provide a more fair comparison of how much people in each country can actually afford. </li>
+<li><b>Include more variables</b>: A multiple regression model that includes other variables - such as education levels and healthcare access - might provide a clearer picture of what drives population growth. </li>
+</ul>
