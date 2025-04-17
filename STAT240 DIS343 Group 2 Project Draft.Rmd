@@ -47,8 +47,67 @@ We find no strong evidence that average GDP per capita is linearly associated wi
 </li>
 </ul>
 
-<h3>Graph</h3>
-<h1><b>MISSING</b></h1>
+<h3>Residual Graph</h3>
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+library(dplyr)
+library(ggplot2)
+library(readr)
+
+population_data <- read_csv("./../data/population.csv")  
+gdp_data <- read_csv("./../data/gdp.csv")
+
+population_data <- population_data %>%
+  filter(Year >= 2000, Year <= 2019)
+
+gdp_data <- gdp_data %>%
+  filter(Year >= 2000, Year <= 2019)
+
+population_data <- population_data %>%
+  rename(Country = `Country Name`)
+
+population_growth <- population_data %>%
+  arrange(Country, Year) %>%
+  group_by(Country) %>%
+  mutate(annual_growth = (Value - lag(Value)) / lag(Value) * 100) %>%
+  
+  filter(!is.na(annual_growth)) %>%
+  summarise(avg_population_growth = mean(annual_growth, na.rm = TRUE))
+
+gdp_data <- gdp_data %>%
+  rename(Country = `Country Name`)
+
+gdp_avg <- gdp_data %>%
+  group_by(Country) %>%
+  summarise(avg_gdp_per_capita = mean(Value, na.rm = TRUE))
+
+merged_data <- inner_join(gdp_avg, population_growth, by = "Country")
+
+fit <- lm(avg_population_growth ~ avg_gdp_per_capita, data = merged_data)
+fit_summary <- summary(fit)
+slope <- coef(fit)[2]
+p_value <- fit_summary$coefficients[2, 4]
+print(fit_summary)
+
+
+
+fit <- lm(avg_population_growth ~ avg_gdp_per_capita, data = merged_data)
+
+resid_df <- data.frame(
+  fitted = fitted(fit),
+  residuals = resid(fit)
+)
+
+plot(fit, which = 1)
+```
+
+
+The residuals vs. fitted values plot is used to assess whether the assumptions of linear regression are met. Specifically, it helps evaluate the following three assumptions:
+<ul>
+<li><b>Linearity</b>: The relationship between the independent variable (average GDP per capita) and the dependent variable (average population growth) should be linear. The curve in the red LOESS line suggests the relationship is <b> not linear</b>. </li>
+<li><b>Normality of Residuals</b>: The residuals should be normally distributed. Since the fitted values are heavily compressed around one end (1.4), the normality assumption is <b>violated</b>.</li>
+<li><b>Homoscedasticity (constant variance)</b>: The residuals should have a consistent spread across all fitted values. However, the spread of residuals as fitted values is increasing (funnel-shape) which indicates heteroscedasticity, meaning the variance is not constant and this assumption is <b>violated</b>.</li>
+</ul>
 
 <h1>Statistical Analysis</h1>
 
